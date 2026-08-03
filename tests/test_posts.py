@@ -67,3 +67,28 @@ def test_create_post():
     assert data["body"] == payload["body"]
     assert data["userId"] == payload["userId"]
     assert data["id"] == 101
+
+
+def test_update_post():
+    payload = {
+        "id": 1,
+        "title": "Updated title",
+        "body": "Updated body",
+        "userId": 1,
+    }
+
+    response = requests.put(
+        url=f"{BASE_URL}/posts/1",
+        json=payload,
+        timeout=5,
+    )
+
+    assert response.status_code == 200
+    assert response.headers["Content-Type"].startswith("application/json")
+
+    data = response.json()
+
+    assert data["id"] == payload["id"]
+    assert data["title"] == payload["title"]
+    assert data["body"] == payload["body"]
+    assert data["userId"] == payload["userId"]
