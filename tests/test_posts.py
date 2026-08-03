@@ -4,7 +4,9 @@ import requests
 BASE_URL = "https://jsonplaceholder.typicode.com"
 
 
-def test_get_post():
+def test_get_post_by_id():
+    """Проверка получения одного поста по ID"""
+
     response = requests.get(
         url=f"{BASE_URL}/posts/1",
         timeout=5,
@@ -23,7 +25,9 @@ def test_get_post():
     assert data["body"] != ""
 
 
-def test_get_posts():
+def test_get_posts_list():
+    """Проверка получения списка постов"""
+
     response = requests.get(
         url=f"{BASE_URL}/posts",
         timeout=5,
@@ -46,6 +50,8 @@ def test_get_posts():
 
 
 def test_create_post():
+    """Проверка создания нового поста"""
+
     payload = {
         "title": "Test title",
         "body": "Test body",
@@ -70,6 +76,8 @@ def test_create_post():
 
 
 def test_update_post():
+    """Проверка полного обновления поста"""
+
     payload = {
         "id": 1,
         "title": "Updated title",
