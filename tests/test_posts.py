@@ -100,3 +100,28 @@ def test_update_post():
     assert data["title"] == payload["title"]
     assert data["body"] == payload["body"]
     assert data["userId"] == payload["userId"]
+
+
+def test_partial_update_post():
+    """Проверка частичного обновления поста"""
+
+    payload = {
+        "title": "Partially updated title",
+    }
+
+    response = requests.patch(
+        url=f"{BASE_URL}/posts/1",
+        json=payload,
+        timeout=5,
+    )
+
+    assert response.status_code == 200
+    assert response.headers["Content-Type"].startswith("application/json")
+
+    data = response.json()
+
+    assert data["id"] == 1
+    assert data["title"] == payload["title"]
+    assert data["userId"] == 1
+    assert isinstance(data["body"], str)
+    assert data["body"] != ""
