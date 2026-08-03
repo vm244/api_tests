@@ -1,5 +1,6 @@
 import requests
 
+
 BASE_URL = "https://jsonplaceholder.typicode.com"
 
 
@@ -9,10 +10,10 @@ def test_get_post():
         timeout=5,
     )
 
-    data = response.json()
-
     assert response.status_code == 200
     assert response.headers["Content-Type"].startswith("application/json")
+
+    data = response.json()
 
     assert data["id"] == 1
     assert data["userId"] == 1
@@ -28,9 +29,11 @@ def test_get_posts():
         timeout=5,
     )
 
+    assert response.status_code == 200
+    assert response.headers["Content-Type"].startswith("application/json")
+
     data = response.json()
 
-    assert response.status_code == 200
     assert isinstance(data, list)
     assert len(data) > 0
 
