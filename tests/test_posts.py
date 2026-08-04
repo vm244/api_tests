@@ -1,3 +1,4 @@
+import pytest
 import requests
 
 
@@ -125,3 +126,19 @@ def test_partial_update_post():
     assert data["userId"] == 1
     assert isinstance(data["body"], str)
     assert data["body"] != ""
+
+
+def test_get_nonexistent_post_raises_http_error():
+    """Проверка ошибки при получении несуществующего поста"""
+
+    response = requests.get(
+        url=f"{BASE_URL}/posts/999999",
+        timeout=5,
+    )
+
+    assert response.status_code == 404
+
+    with pytest.raises(requests.exceptions.HTTPError) as exception:
+        response.raise_for_status()
+
+    assert exception.value.response.status_code == 404
