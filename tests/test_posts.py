@@ -5,11 +5,11 @@ import requests
 BASE_URL = "https://jsonplaceholder.typicode.com"
 
 
-def test_get_post_by_id():
+def test_get_post_by_id(post_id):
     """Проверка получения одного поста по ID"""
 
     response = requests.get(
-        url=f"{BASE_URL}/posts/1",
+        url=f"{BASE_URL}/posts/{post_id}",
         timeout=5,
     )
 
@@ -18,7 +18,7 @@ def test_get_post_by_id():
 
     data = response.json()
 
-    assert data["id"] == 1
+    assert data["id"] == post_id
     assert data["userId"] == 1
     assert isinstance(data["title"], str)
     assert data["title"] != ""
@@ -76,18 +76,18 @@ def test_create_post():
     assert data["id"] == 101
 
 
-def test_update_post():
+def test_update_post(post_id):
     """Проверка полного обновления поста"""
 
     payload = {
-        "id": 1,
+        "id": post_id,
         "title": "Updated title",
         "body": "Updated body",
         "userId": 1,
     }
 
     response = requests.put(
-        url=f"{BASE_URL}/posts/1",
+        url=f"{BASE_URL}/posts/{post_id}",
         json=payload,
         timeout=5,
     )
@@ -103,7 +103,7 @@ def test_update_post():
     assert data["userId"] == payload["userId"]
 
 
-def test_partial_update_post():
+def test_partial_update_post(post_id):
     """Проверка частичного обновления поста"""
 
     payload = {
@@ -111,7 +111,7 @@ def test_partial_update_post():
     }
 
     response = requests.patch(
-        url=f"{BASE_URL}/posts/1",
+        url=f"{BASE_URL}/posts/{post_id}",
         json=payload,
         timeout=5,
     )
@@ -121,7 +121,7 @@ def test_partial_update_post():
 
     data = response.json()
 
-    assert data["id"] == 1
+    assert data["id"] == post_id
     assert data["title"] == payload["title"]
     assert data["userId"] == 1
     assert isinstance(data["body"], str)
