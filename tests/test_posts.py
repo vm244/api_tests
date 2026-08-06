@@ -138,6 +138,9 @@ def test_get_nonexistent_post():
 
     assert response.status_code == 404
 
+    with pytest.raises(requests.exceptions.HTTPError):
+        response.raise_for_status()
+
 
 def test_get_post_with_zero_id():
     """Проверка получения поста с ID 0"""
