@@ -150,3 +150,12 @@ def test_get_post_with_zero_id():
     assert response.status_code == 404
 
 
+def test_get_post_with_invalid_id():
+    """Проверка получения поста с некорректным ID"""
+
+    response = requests.get(
+        url=f"{BASE_URL}/posts/invalid",
+        timeout=5,
+    )
+
+    assert response.status_code == 404
