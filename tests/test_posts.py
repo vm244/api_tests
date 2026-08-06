@@ -137,3 +137,16 @@ def test_get_nonexistent_post():
     )
 
     assert response.status_code == 404
+
+
+def test_get_post_with_zero_id():
+    """Проверка получения поста с ID 0"""
+
+    response = requests.get(
+        url=f"{BASE_URL}/posts/0",
+        timeout=5,
+    )
+
+    assert response.status_code == 404
+
+
