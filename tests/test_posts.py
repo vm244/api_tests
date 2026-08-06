@@ -159,3 +159,20 @@ def test_get_post_with_invalid_id():
     )
 
     assert response.status_code == 404
+
+
+def test_get_posts_for_nonexistent_user():
+    """Проверка списка постов несуществующего пользователя"""
+
+    response = requests.get(
+        url=f"{BASE_URL}/posts",
+        params={"userId": 999999},
+        timeout=5,
+    )
+
+    assert response.status_code == 200
+    assert response.headers["Content-Type"].startswith("application/json")
+
+    data = response.json()
+
+    assert data == []
