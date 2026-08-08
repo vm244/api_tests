@@ -7,8 +7,9 @@ def post_id():
 
 BASE_URL = "https://restful-booker.herokuapp.com"
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def auth_token():
+
     payload = {
         "username": "admin",
         "password": "password123",
@@ -20,12 +21,11 @@ def auth_token():
         timeout=5,
     )
 
-    data = response.json()
-
-    return data["token"]
+    return response.json()["token"]
 
 @pytest.fixture
 def booking_id(auth_token):
+
     payload = {
         "firstname": "Vadim",
         "lastname": "Test",

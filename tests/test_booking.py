@@ -78,3 +78,36 @@ def test_get_booking_by_id(booking_id):
 
     assert data["firstname"] == "Vadim"
     assert data["lastname"] == "Test"
+
+def test_update_booking(booking_id, auth_token):
+    """Проверка полного обновления бронирования"""
+
+    payload = {
+        "firstname": "Vadim",
+        "lastname": "Updated",
+        "totalprice": 200,
+        "depositpaid": True,
+        "bookingdates": {
+            "checkin": "2026-08-10",
+            "checkout": "2026-08-20",
+        },
+        "additionalneeds": "Dinner",
+    }
+
+    response = requests.put(
+        url=f"{BASE_URL}/booking/{booking_id}",
+        json=payload,
+        headers={"Cookie": f"token={auth_token}"},
+        timeout=5,
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["firstname"] == payload["firstname"]
+    assert data["lastname"] == payload["lastname"]
+    assert data["totalprice"] == payload["totalprice"]
+    assert data["depositpaid"] == payload["depositpaid"]
+    assert data["bookingdates"] == payload["bookingdates"]
+    assert data["additionalneeds"] == payload["additionalneeds"]
