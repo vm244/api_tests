@@ -63,3 +63,18 @@ def test_create_booking():
     assert booking["depositpaid"] == payload["depositpaid"]
     assert booking["bookingdates"] == payload["bookingdates"]
     assert booking["additionalneeds"] == payload["additionalneeds"]
+
+def test_get_booking_by_id(booking_id):
+    """Проверка получения бронирования по ID"""
+
+    response = requests.get(
+        url=f"{BASE_URL}/booking/{booking_id}",
+        timeout=5,
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["firstname"] == "Vadim"
+    assert data["lastname"] == "Test"
