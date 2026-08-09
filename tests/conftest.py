@@ -63,3 +63,7 @@ def booking_id(auth_token, base_url):
         headers={"Cookie": f"token={auth_token}"},
         timeout=5,
     )
+
+@pytest.fixture(params=[True, False])
+def deposit_paid(request):
+    return request.param

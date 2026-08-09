@@ -23,14 +23,14 @@ def test_create_auth_token(base_url):
     assert isinstance(data["token"], str)
     assert data["token"] != ""
 
-def test_create_booking(base_url):
+def test_create_booking(base_url,deposit_paid):
     """Проверка создания бронирования"""
 
     payload = {
         "firstname": "Vadim",
         "lastname": "Test",
         "totalprice": 100,
-        "depositpaid": True,
+        "depositpaid": deposit_paid,
         "bookingdates": {
             "checkin": "2026-08-10",
             "checkout": "2026-08-15",
