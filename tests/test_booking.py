@@ -1,10 +1,6 @@
 import requests
 
-
-BASE_URL = "https://restful-booker.herokuapp.com"
-
-
-def test_create_auth_token():
+def test_create_auth_token(base_url):
     """Проверка получения токена авторизации"""
 
     payload = {
@@ -13,7 +9,7 @@ def test_create_auth_token():
     }
 
     response = requests.post(
-        url=f"{BASE_URL}/auth",
+        url=f"{base_url}/auth",
         json=payload,
         timeout=5,
     )
@@ -27,7 +23,7 @@ def test_create_auth_token():
     assert isinstance(data["token"], str)
     assert data["token"] != ""
 
-def test_create_booking():
+def test_create_booking(base_url):
     """Проверка создания бронирования"""
 
     payload = {
@@ -43,7 +39,7 @@ def test_create_booking():
     }
 
     response = requests.post(
-        url=f"{BASE_URL}/booking",
+        url=f"{base_url}/booking",
         json=payload,
         timeout=5,
     )
@@ -64,11 +60,11 @@ def test_create_booking():
     assert booking["bookingdates"] == payload["bookingdates"]
     assert booking["additionalneeds"] == payload["additionalneeds"]
 
-def test_get_booking_by_id(booking_id):
+def test_get_booking_by_id(booking_id,base_url):
     """Проверка получения бронирования по ID"""
 
     response = requests.get(
-        url=f"{BASE_URL}/booking/{booking_id}",
+        url=f"{base_url}/booking/{booking_id}",
         timeout=5,
     )
 
@@ -79,7 +75,7 @@ def test_get_booking_by_id(booking_id):
     assert data["firstname"] == "Vadim"
     assert data["lastname"] == "Test"
 
-def test_update_booking(booking_id, auth_token):
+def test_update_booking(booking_id, auth_token, base_url):
     """Проверка полного обновления бронирования"""
 
     payload = {
@@ -95,7 +91,7 @@ def test_update_booking(booking_id, auth_token):
     }
 
     response = requests.put(
-        url=f"{BASE_URL}/booking/{booking_id}",
+        url=f"{base_url}/booking/{booking_id}",
         json=payload,
         headers={"Cookie": f"token={auth_token}"},
         timeout=5,
