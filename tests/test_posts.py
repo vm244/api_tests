@@ -4,7 +4,7 @@ import requests
 
 BASE_URL = "https://jsonplaceholder.typicode.com"
 
-
+@pytest.mark.smoke
 def test_get_post_by_id(post_id):
     """Проверка получения одного поста по ID"""
 
@@ -49,7 +49,7 @@ def test_get_posts_list():
     assert "title" in first_post
     assert "body" in first_post
 
-
+@pytest.mark.smoke
 def test_create_post():
     """Проверка создания нового поста"""
 
@@ -75,7 +75,7 @@ def test_create_post():
     assert data["userId"] == payload["userId"]
     assert data["id"] == 101
 
-
+@pytest.mark.regression
 def test_update_post(post_id):
     """Проверка полного обновления поста"""
 
@@ -102,7 +102,7 @@ def test_update_post(post_id):
     assert data["body"] == payload["body"]
     assert data["userId"] == payload["userId"]
 
-
+@pytest.mark.regression
 def test_partial_update_post(post_id):
     """Проверка частичного обновления поста"""
 
@@ -127,7 +127,7 @@ def test_partial_update_post(post_id):
     assert isinstance(data["body"], str)
     assert data["body"] != ""
 
-
+@pytest.mark.regression
 def test_get_nonexistent_post():
     """Проверка получения несуществующего поста"""
 
