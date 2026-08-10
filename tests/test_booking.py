@@ -1,5 +1,4 @@
 import requests
-import pytest
 
 def test_create_auth_token(base_url):
     """Проверка получения токена авторизации"""
@@ -24,7 +23,7 @@ def test_create_auth_token(base_url):
     assert isinstance(data["token"], str)
     assert data["token"] != ""
 
-def test_create_booking(base_url,deposit_paid):
+def test_create_booking(base_url, deposit_paid):
     """Проверка создания бронирования"""
 
     payload = {
@@ -61,7 +60,7 @@ def test_create_booking(base_url,deposit_paid):
     assert booking["bookingdates"] == payload["bookingdates"]
     assert booking["additionalneeds"] == payload["additionalneeds"]
 
-def test_get_booking_by_id(booking_id,base_url):
+def test_get_booking_by_id(booking_id, base_url):
     """Проверка получения бронирования по ID"""
 
     response = requests.get(

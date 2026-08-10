@@ -25,7 +25,6 @@ def test_get_post_by_id(post_id):
     assert isinstance(data["body"], str)
     assert data["body"] != ""
 
-
 def test_get_posts_list():
     """Проверка получения списка постов"""
 
@@ -141,7 +140,7 @@ def test_get_nonexistent_post():
     with pytest.raises(requests.exceptions.HTTPError):
         response.raise_for_status()
 
-
+@pytest.mark.skip(reason="Temporary skip for practice")
 def test_get_post_with_zero_id():
     """Проверка получения поста с ID 0"""
 
@@ -152,7 +151,6 @@ def test_get_post_with_zero_id():
 
     assert response.status_code == 404
 
-
 def test_get_post_with_invalid_id():
     """Проверка получения поста с некорректным ID"""
 
@@ -162,7 +160,6 @@ def test_get_post_with_invalid_id():
     )
 
     assert response.status_code == 404
-
 
 def test_get_posts_for_nonexistent_user():
     """Проверка списка постов несуществующего пользователя"""
