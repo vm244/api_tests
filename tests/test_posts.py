@@ -140,22 +140,12 @@ def test_get_nonexistent_post():
     with pytest.raises(requests.exceptions.HTTPError):
         response.raise_for_status()
 
-@pytest.mark.skip(reason="Temporary skip for practice")
-def test_get_post_with_zero_id():
-    """Проверка получения поста с ID 0"""
-
-    response = requests.get(
-        url=f"{BASE_URL}/posts/0",
-        timeout=5,
-    )
-
-    assert response.status_code == 404
-
-def test_get_post_with_invalid_id():
+@pytest.mark.parametrize("post_id", [0, "invalid"])
+def test_get_post_with_invalid_id(post_id):
     """Проверка получения поста с некорректным ID"""
 
     response = requests.get(
-        url=f"{BASE_URL}/posts/invalid",
+        url=f"{BASE_URL}/posts/{post_id}",
         timeout=5,
     )
 
