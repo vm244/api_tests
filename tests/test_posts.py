@@ -140,12 +140,12 @@ def test_get_nonexistent_post():
     with pytest.raises(requests.exceptions.HTTPError):
         response.raise_for_status()
 
-@pytest.mark.parametrize("post_id", [0, "invalid"])
-def test_get_post_with_invalid_id(post_id):
+@pytest.mark.parametrize("invalid_post_id", [0, "invalid"])
+def test_get_post_with_invalid_id(invalid_post_id):
     """Проверка получения поста с некорректным ID"""
 
     response = requests.get(
-        url=f"{BASE_URL}/posts/{post_id}",
+        url=f"{BASE_URL}/posts/{invalid_post_id}",
         timeout=5,
     )
 
