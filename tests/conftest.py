@@ -67,3 +67,9 @@ def booking_id(auth_token, base_url):
 @pytest.fixture(params=[True, False])
 def deposit_paid(request):
     return request.param
+
+def pytest_collection_modifyitems(items):
+    print("\nCOLLECTED TESTS:")
+
+    for item in items:
+        print(item.name)
