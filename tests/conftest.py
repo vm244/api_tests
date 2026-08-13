@@ -73,3 +73,12 @@ def pytest_collection_modifyitems(items):
 
     for item in items:
         print(item.name)
+
+@pytest.hookimpl(wrapper=True)
+def pytest_runtest_makereport(item, call):
+    report = yield
+
+    if report.when == "call":
+        print(f"\nRESULT: {item.name} - {report.outcome}")
+
+    return report
