@@ -34,7 +34,7 @@ def auth_token(base_url):
     return response.json()["token"]
 
 @pytest.fixture
-def booking_id(auth_token, base_url):
+def booking_id(auth_token, base_url, request):
 
     payload = {
         "firstname": "Vadim",
@@ -58,6 +58,9 @@ def booking_id(auth_token, base_url):
 
     yield booking_id
 
+    if getattr(request.node, "test_failed", False):
+        print(f"\nTEST FAILED: booking_id={booking_id}")
+
     requests.delete(
         url=f"{base_url}/booking/{booking_id}",
         headers={"Cookie": f"token={auth_token}"},
@@ -79,6 +82,6 @@ def pytest_runtest_makereport(item, call):
     report = yield
 
     if report.when == "call":
-        print(f"\nRESULT: {item.name} - {report.outcome}")
+        item.test_failed = report.failed
 
     return report
