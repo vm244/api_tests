@@ -18,6 +18,14 @@ def base_url(request):
     return request.config.getoption("--base-url")
 
 @pytest.fixture(scope="session")
+def api_client():
+    session = requests.Session()
+
+    yield session
+
+    session.close()
+
+@pytest.fixture(scope="session")
 def auth_token(base_url):
 
     payload = {
@@ -78,7 +86,7 @@ def pytest_collection_modifyitems(items):
         print(item.name)
 
 @pytest.hookimpl(wrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(item):
     report = yield
 
     if report.when == "call":

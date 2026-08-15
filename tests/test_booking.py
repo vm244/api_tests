@@ -60,10 +60,10 @@ def test_create_booking(base_url, deposit_paid):
     assert booking["bookingdates"] == payload["bookingdates"]
     assert booking["additionalneeds"] == payload["additionalneeds"]
 
-def test_get_booking_by_id(booking_id, base_url):
+def test_get_booking_by_id(booking_id, base_url, api_client):
     """Проверка получения бронирования по ID"""
 
-    response = requests.get(
+    response = api_client.get(
         url=f"{base_url}/booking/{booking_id}",
         timeout=5,
     )
