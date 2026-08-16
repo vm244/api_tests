@@ -23,7 +23,7 @@ def test_create_auth_token(base_url):
     assert isinstance(data["token"], str)
     assert data["token"] != ""
 
-def test_create_booking(base_url, deposit_paid):
+def test_create_booking(base_url, deposit_paid, api_client):
     """Проверка создания бронирования"""
 
     payload = {
@@ -38,7 +38,7 @@ def test_create_booking(base_url, deposit_paid):
         "additionalneeds": "Breakfast",
     }
 
-    response = requests.post(
+    response = api_client.post(
         url=f"{base_url}/booking",
         json=payload,
         timeout=5,
@@ -75,7 +75,7 @@ def test_get_booking_by_id(booking_id, base_url, api_client):
     assert data["firstname"] == "Vadim"
     assert data["lastname"] == "Test"
 
-def test_update_booking(booking_id, auth_token, base_url):
+def test_update_booking(booking_id, auth_token, base_url, api_client):
     """Проверка полного обновления бронирования"""
 
     payload = {
@@ -90,10 +90,11 @@ def test_update_booking(booking_id, auth_token, base_url):
         "additionalneeds": "Dinner",
     }
 
-    response = requests.put(
+    api_client.cookies.set("token", auth_token)
+
+    response = api_client.put(
         url=f"{base_url}/booking/{booking_id}",
         json=payload,
-        headers={"Cookie": f"token={auth_token}"},
         timeout=5,
     )
 
