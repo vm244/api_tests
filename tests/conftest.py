@@ -30,20 +30,33 @@ def api_client():
     session.close()
 
 @pytest.fixture(scope="session")
-def auth_token(base_url):
-
+def auth_token(base_url, api_client):
     payload = {
         "username": "admin",
         "password": "password123",
     }
 
-    response = requests.post(
+    response = api_client.post(
         url=f"{base_url}/auth",
         json=payload,
         timeout=5,
     )
 
     return response.json()["token"]
+
+@pytest.fixture(scope="session")
+def authorized_api_client(auth_token):
+    session = requests.Session()
+
+    session.headers.update({
+        "Accept": "application/json",
+    })
+
+    session.cookies.set("token", auth_token)
+
+    yield session
+
+    session.close()
 
 @pytest.fixture
 def booking_id(auth_token, base_url, request):

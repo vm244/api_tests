@@ -75,7 +75,7 @@ def test_get_booking_by_id(booking_id, base_url, api_client):
     assert data["firstname"] == "Vadim"
     assert data["lastname"] == "Test"
 
-def test_update_booking(booking_id, auth_token, base_url, api_client):
+def test_update_booking(booking_id, base_url, authorized_api_client):
     """Проверка полного обновления бронирования"""
 
     payload = {
@@ -90,9 +90,7 @@ def test_update_booking(booking_id, auth_token, base_url, api_client):
         "additionalneeds": "Dinner",
     }
 
-    api_client.cookies.set("token", auth_token)
-
-    response = api_client.put(
+    response = authorized_api_client.put(
         url=f"{base_url}/booking/{booking_id}",
         json=payload,
         timeout=5,
