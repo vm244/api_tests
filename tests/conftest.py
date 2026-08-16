@@ -21,6 +21,10 @@ def base_url(request):
 def api_client():
     session = requests.Session()
 
+    session.headers.update({
+        "Accept": "application/json",
+    })
+
     yield session
 
     session.close()
