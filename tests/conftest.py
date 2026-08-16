@@ -59,8 +59,7 @@ def authorized_api_client(auth_token):
     session.close()
 
 @pytest.fixture
-def booking_id(auth_token, base_url, request):
-
+def booking_id(api_client, authorized_api_client, base_url, request):
     payload = {
         "firstname": "Vadim",
         "lastname": "Test",
@@ -73,7 +72,7 @@ def booking_id(auth_token, base_url, request):
         "additionalneeds": "Breakfast",
     }
 
-    response = requests.post(
+    response = api_client.post(
         url=f"{base_url}/booking",
         json=payload,
         timeout=5,
@@ -86,9 +85,8 @@ def booking_id(auth_token, base_url, request):
     if getattr(request.node, "test_failed", False):
         print(f"\nTEST FAILED: booking_id={booking_id}")
 
-    requests.delete(
+    authorized_api_client.delete(
         url=f"{base_url}/booking/{booking_id}",
-        headers={"Cookie": f"token={auth_token}"},
         timeout=5,
     )
 
