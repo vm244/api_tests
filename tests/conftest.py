@@ -98,10 +98,6 @@ def booking_id(
         timeout=5,
     )
 
-@pytest.fixture(params=[True, False])
-def deposit_paid(request):
-    return request.param
-
 def pytest_collection_modifyitems(items):
     print("\nCOLLECTED TESTS:")
 

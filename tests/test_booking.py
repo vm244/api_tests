@@ -1,3 +1,4 @@
+import pytest
 import requests
 
 def test_create_auth_token(base_url):
@@ -23,6 +24,7 @@ def test_create_auth_token(base_url):
     assert isinstance(data["token"], str)
     assert data["token"] != ""
 
+@pytest.mark.parametrize("deposit_paid", [True, False])
 def test_create_booking(base_url, deposit_paid, api_client, booking_payload):
     """Проверка создания бронирования"""
 
