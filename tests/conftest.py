@@ -59,8 +59,8 @@ def authorized_api_client(auth_token):
     session.close()
 
 @pytest.fixture
-def booking_id(api_client, authorized_api_client, base_url, request):
-    payload = {
+def booking_payload():
+    return {
         "firstname": "Vadim",
         "lastname": "Test",
         "totalprice": 100,
@@ -72,9 +72,17 @@ def booking_id(api_client, authorized_api_client, base_url, request):
         "additionalneeds": "Breakfast",
     }
 
+@pytest.fixture
+def booking_id(
+    api_client,
+    authorized_api_client,
+    base_url,
+    request,
+    booking_payload,
+):
     response = api_client.post(
         url=f"{base_url}/booking",
-        json=payload,
+        json=booking_payload,
         timeout=5,
     )
 
