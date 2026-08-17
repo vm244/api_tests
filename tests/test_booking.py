@@ -23,24 +23,14 @@ def test_create_auth_token(base_url):
     assert isinstance(data["token"], str)
     assert data["token"] != ""
 
-def test_create_booking(base_url, deposit_paid, api_client):
+def test_create_booking(base_url, deposit_paid, api_client, booking_payload):
     """Проверка создания бронирования"""
 
-    payload = {
-        "firstname": "Vadim",
-        "lastname": "Test",
-        "totalprice": 100,
-        "depositpaid": deposit_paid,
-        "bookingdates": {
-            "checkin": "2026-08-10",
-            "checkout": "2026-08-15",
-        },
-        "additionalneeds": "Breakfast",
-    }
+    booking_payload["depositpaid"] = deposit_paid
 
     response = api_client.post(
         url=f"{base_url}/booking",
-        json=payload,
+        json=booking_payload,
         timeout=5,
     )
 
@@ -53,12 +43,12 @@ def test_create_booking(base_url, deposit_paid, api_client):
 
     booking = data["booking"]
 
-    assert booking["firstname"] == payload["firstname"]
-    assert booking["lastname"] == payload["lastname"]
-    assert booking["totalprice"] == payload["totalprice"]
-    assert booking["depositpaid"] == payload["depositpaid"]
-    assert booking["bookingdates"] == payload["bookingdates"]
-    assert booking["additionalneeds"] == payload["additionalneeds"]
+    assert booking["firstname"] == booking_payload["firstname"]
+    assert booking["lastname"] == booking_payload["lastname"]
+    assert booking["totalprice"] == booking_payload["totalprice"]
+    assert booking["depositpaid"] == booking_payload["depositpaid"]
+    assert booking["bookingdates"] == booking_payload["bookingdates"]
+    assert booking["additionalneeds"] == booking_payload["additionalneeds"]
 
 def test_get_booking_by_id(booking_id, base_url, api_client):
     """Проверка получения бронирования по ID"""
