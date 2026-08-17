@@ -42,6 +42,8 @@ def auth_token(base_url, api_client):
         timeout=5,
     )
 
+    assert response.status_code == 200
+
     return response.json()["token"]
 
 @pytest.fixture(scope="session")
