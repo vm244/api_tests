@@ -24,6 +24,7 @@ def test_create_auth_token(base_url):
     assert isinstance(data["token"], str)
     assert data["token"] != ""
 
+
 @pytest.mark.parametrize("deposit_paid", [True, False])
 def test_create_booking(base_url, deposit_paid, api_client, booking_payload):
     """Проверка создания бронирования"""
@@ -52,6 +53,7 @@ def test_create_booking(base_url, deposit_paid, api_client, booking_payload):
     assert booking["bookingdates"] == booking_payload["bookingdates"]
     assert booking["additionalneeds"] == booking_payload["additionalneeds"]
 
+
 def test_get_booking_by_id(booking_id, base_url, api_client):
     """Проверка получения бронирования по ID"""
 
@@ -66,6 +68,7 @@ def test_get_booking_by_id(booking_id, base_url, api_client):
 
     assert data["firstname"] == "Vadim"
     assert data["lastname"] == "Test"
+
 
 def test_update_booking(booking_id, base_url, authorized_api_client):
     """Проверка полного обновления бронирования"""
@@ -98,3 +101,36 @@ def test_update_booking(booking_id, base_url, authorized_api_client):
     assert data["depositpaid"] == payload["depositpaid"]
     assert data["bookingdates"] == payload["bookingdates"]
     assert data["additionalneeds"] == payload["additionalneeds"]
+
+
+def test_delete_booking(
+    base_url,
+    api_client,
+    authorized_api_client,
+    booking_payload,
+):
+    """Проверка удаления бронирования"""
+
+    create_response = api_client.post(
+        url=f"{base_url}/booking",
+        json=booking_payload,
+        timeout=5,
+    )
+
+    assert create_response.status_code == 200
+
+    booking_id = create_response.json()["bookingid"]
+
+    delete_response = authorized_api_client.delete(
+        url=f"{base_url}/booking/{booking_id}",
+        timeout=5,
+    )
+
+    assert delete_response.status_code == 201
+
+    get_response = api_client.get(
+        url=f"{base_url}/booking/{booking_id}",
+        timeout=5,
+    )
+
+    assert get_response.status_code == 404
