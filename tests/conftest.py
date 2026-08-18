@@ -88,6 +88,8 @@ def booking_id(
         timeout=5,
     )
 
+    assert response.status_code == 200
+
     booking_id = response.json()["bookingid"]
 
     yield booking_id
@@ -95,10 +97,12 @@ def booking_id(
     if getattr(request.node, "test_failed", False):
         print(f"\nTEST FAILED: booking_id={booking_id}")
 
-    authorized_api_client.delete(
+    delete_response = authorized_api_client.delete(
         url=f"{base_url}/booking/{booking_id}",
         timeout=5,
     )
+
+    assert delete_response.status_code == 201
 
 def pytest_collection_modifyitems(items):
     print("\nCOLLECTED TESTS:")
