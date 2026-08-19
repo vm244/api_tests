@@ -4,6 +4,7 @@ import requests
 
 BASE_URL = "https://jsonplaceholder.typicode.com"
 
+
 @pytest.mark.smoke
 def test_get_post_by_id(post_id):
     """Проверка получения одного поста по ID"""
@@ -24,6 +25,7 @@ def test_get_post_by_id(post_id):
     assert data["title"] != ""
     assert isinstance(data["body"], str)
     assert data["body"] != ""
+
 
 def test_get_posts_list():
     """Проверка получения списка постов"""
@@ -47,6 +49,7 @@ def test_get_posts_list():
     assert "userId" in first_post
     assert "title" in first_post
     assert "body" in first_post
+
 
 @pytest.mark.smoke
 def test_create_post():
@@ -73,6 +76,7 @@ def test_create_post():
     assert data["body"] == payload["body"]
     assert data["userId"] == payload["userId"]
     assert data["id"] == 101
+
 
 @pytest.mark.regression
 def test_update_post(post_id):
@@ -101,6 +105,7 @@ def test_update_post(post_id):
     assert data["body"] == payload["body"]
     assert data["userId"] == payload["userId"]
 
+
 @pytest.mark.regression
 def test_partial_update_post(post_id):
     """Проверка частичного обновления поста"""
@@ -126,6 +131,7 @@ def test_partial_update_post(post_id):
     assert isinstance(data["body"], str)
     assert data["body"] != ""
 
+
 @pytest.mark.regression
 def test_get_nonexistent_post():
     """Проверка получения несуществующего поста"""
@@ -140,6 +146,7 @@ def test_get_nonexistent_post():
     with pytest.raises(requests.exceptions.HTTPError):
         response.raise_for_status()
 
+
 @pytest.mark.parametrize("invalid_post_id", [0, "invalid"])
 def test_get_post_with_invalid_id(invalid_post_id):
     """Проверка получения поста с некорректным ID"""
@@ -150,6 +157,7 @@ def test_get_post_with_invalid_id(invalid_post_id):
     )
 
     assert response.status_code == 404
+
 
 def test_get_posts_for_nonexistent_user():
     """Проверка списка постов несуществующего пользователя"""

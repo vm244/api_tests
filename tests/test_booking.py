@@ -1,6 +1,7 @@
 import pytest
 import requests
 
+
 def test_create_auth_token(base_url):
     """Проверка получения токена авторизации"""
 

@@ -1,9 +1,11 @@
 import pytest
 import requests
 
+
 @pytest.fixture
 def post_id():
     return 1
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -13,9 +15,11 @@ def pytest_addoption(parser):
         help="API base URL",
     )
 
+
 @pytest.fixture(scope="session")
 def base_url(request):
     return request.config.getoption("--base-url")
+
 
 @pytest.fixture(scope="session")
 def api_client():
@@ -28,6 +32,7 @@ def api_client():
     yield session
 
     session.close()
+
 
 @pytest.fixture(scope="session")
 def auth_token(base_url, api_client):
@@ -46,6 +51,7 @@ def auth_token(base_url, api_client):
 
     return response.json()["token"]
 
+
 @pytest.fixture(scope="session")
 def authorized_api_client(auth_token):
     session = requests.Session()
@@ -60,6 +66,7 @@ def authorized_api_client(auth_token):
 
     session.close()
 
+
 @pytest.fixture
 def booking_payload():
     return {
@@ -73,6 +80,7 @@ def booking_payload():
         },
         "additionalneeds": "Breakfast",
     }
+
 
 @pytest.fixture
 def booking_id(
@@ -104,11 +112,13 @@ def booking_id(
 
     assert delete_response.status_code == 201
 
+
 def pytest_collection_modifyitems(items):
     print("\nCOLLECTED TESTS:")
 
     for item in items:
         print(item.name)
+
 
 @pytest.hookimpl(wrapper=True)
 def pytest_runtest_makereport(item):
