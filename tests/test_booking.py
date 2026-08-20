@@ -104,6 +104,31 @@ def test_update_booking(booking_id, base_url, authorized_api_client):
     assert data["additionalneeds"] == payload["additionalneeds"]
 
 
+def test_partial_update_booking(
+    booking_id,
+    base_url,
+    authorized_api_client,
+):
+    """Проверка частичного обновления бронирования"""
+
+    payload = {
+        "firstname": "Updated",
+    }
+
+    response = authorized_api_client.patch(
+        url=f"{base_url}/booking/{booking_id}",
+        json=payload,
+        timeout=5,
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["firstname"] == payload["firstname"]
+    assert data["lastname"] == "Test"
+
+
 def test_delete_booking(
     base_url,
     api_client,
