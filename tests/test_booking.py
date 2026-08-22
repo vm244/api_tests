@@ -1,8 +1,7 @@
 import pytest
-import requests
 
 
-def test_create_auth_token(base_url):
+def test_create_auth_token(base_url, api_client):
     """Проверка получения токена авторизации"""
 
     payload = {
@@ -10,7 +9,7 @@ def test_create_auth_token(base_url):
         "password": "password123",
     }
 
-    response = requests.post(
+    response = api_client.post(
         url=f"{base_url}/auth",
         json=payload,
         timeout=5,
