@@ -55,7 +55,12 @@ def test_create_booking(base_url, deposit_paid, api_client, booking_payload):
     assert booking["additionalneeds"] == booking_payload["additionalneeds"]
 
 
-def test_get_booking_by_id(booking_id, base_url, api_client):
+def test_get_booking_by_id(
+    booking_id,
+    base_url,
+    api_client,
+    booking_payload,
+):
     """Проверка получения бронирования по ID"""
 
     response = api_client.get(
@@ -67,8 +72,8 @@ def test_get_booking_by_id(booking_id, base_url, api_client):
 
     data = response.json()
 
-    assert data["firstname"] == "Vadim"
-    assert data["lastname"] == "Test"
+    assert data["firstname"] == booking_payload["firstname"]
+    assert data["lastname"] == booking_payload["lastname"]
 
 
 def test_update_booking(booking_id, base_url, authorized_api_client):
