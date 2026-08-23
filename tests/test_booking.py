@@ -1,5 +1,15 @@
 import pytest
 
+class BookingApi:
+    def __init__(self, base_url, session):
+        self.base_url = base_url
+        self.session = session
+
+    def get_booking(self, booking_id):
+        return self.session.get(
+            url=f"{self.base_url}/booking/{booking_id}",
+            timeout=5,
+        )
 
 def test_create_auth_token(base_url, api_client):
     """Проверка получения токена авторизации"""
