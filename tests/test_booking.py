@@ -73,10 +73,8 @@ def test_get_booking_by_id(
 ):
     """Проверка получения бронирования по ID"""
 
-    response = api_client.get(
-        url=f"{base_url}/booking/{booking_id}",
-        timeout=5,
-    )
+    booking_api = BookingApi(base_url, api_client)
+    response = booking_api.get_booking(booking_id)
 
     assert response.status_code == 200
 
